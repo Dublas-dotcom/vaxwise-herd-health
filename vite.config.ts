@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode = '/vaxwise-herd-health/',
+base: mode === 'development' ? '/' : '/vaxwise-herd-health/',
   server: {
     port: 3000,
     strictPort: true,
