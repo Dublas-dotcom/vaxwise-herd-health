@@ -10,7 +10,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
-  SidebarTrigger,
 } from '@/components/ui/sidebar';
 
 export const AppSidebar = ({ currentView, onViewChange }) => {
