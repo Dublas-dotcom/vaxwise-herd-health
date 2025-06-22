@@ -1,14 +1,7 @@
 
 import { X } from 'lucide-react';
 
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-  currentView: string;
-  onViewChange: (view: string) => void;
-}
-
-export const Sidebar = ({ isOpen, onClose, currentView, onViewChange }: SidebarProps) => {
+export const Sidebar = ({ isOpen, onClose, currentView, onViewChange }) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'animals', label: 'Herd Management', icon: '🐄' },

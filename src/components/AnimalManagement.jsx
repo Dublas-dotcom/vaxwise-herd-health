@@ -26,7 +26,7 @@ export const AnimalManagement = () => {
     (selectedHerd === 'all' || animal.herd === selectedHerd)
   );
 
-  const getHealthColor = (health: string) => {
+  const getHealthColor = (health) => {
     switch (health) {
       case 'Excellent': return 'bg-green-100 text-green-800';
       case 'Good': return 'bg-blue-100 text-blue-800';

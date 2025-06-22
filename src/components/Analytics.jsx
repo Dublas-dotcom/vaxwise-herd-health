@@ -20,7 +20,7 @@ export const Analytics = () => {
     { month: 'June', vaccinations: 23, costs: 460 },
   ];
 
-  const getComplianceColor = (percentage: number) => {
+  const getComplianceColor = (percentage) => {
     if (percentage >= 90) return 'bg-green-100 text-green-800';
     if (percentage >= 70) return 'bg-yellow-100 text-yellow-800';
     return 'bg-red-100 text-red-800';
@@ -72,7 +72,7 @@ export const Analytics = () => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">YTD Costs</p>
+                <p className="text-sm font-medium text-gray-600">Total Cost</p>
                 <p className="text-2xl font-bold text-purple-600">$3,370</p>
               </div>
               <div className="text-3xl">💰</div>
@@ -89,13 +89,11 @@ export const Analytics = () => {
         <CardContent>
           <div className="space-y-4">
             {complianceData.map((item, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div key={index} className="flex items-center justify-between">
                 <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-medium">{item.category}</span>
-                    <Badge className={getComplianceColor(item.percentage)}>
-                      {item.percentage}%
-                    </Badge>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-medium text-gray-700">{item.category}</span>
+                    <span className="text-sm text-gray-500">{item.completed}/{item.total}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
@@ -103,10 +101,10 @@ export const Analytics = () => {
                       style={{ width: `${item.percentage}%` }}
                     ></div>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">
-                    {item.completed} of {item.total} animals
-                  </p>
                 </div>
+                <Badge className={`ml-4 ${getComplianceColor(item.percentage)}`}>
+                  {item.percentage}%
+                </Badge>
               </div>
             ))}
           </div>
@@ -114,71 +112,27 @@ export const Analytics = () => {
       </Card>
 
       {/* Monthly Statistics */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Monthly Vaccinations</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {monthlyStats.map((stat, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="font-medium">{stat.month}</span>
-                  <div className="text-right">
-                    <span className="text-lg font-bold text-blue-600">{stat.vaccinations}</span>
-                    <p className="text-sm text-gray-600">vaccinations</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Monthly Costs</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {monthlyStats.map((stat, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="font-medium">{stat.month}</span>
-                  <div className="text-right">
-                    <span className="text-lg font-bold text-purple-600">${stat.costs}</span>
-                    <p className="text-sm text-gray-600">total costs</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recommendations */}
       <Card>
         <CardHeader>
-          <CardTitle>Recommendations</CardTitle>
+          <CardTitle>Monthly Vaccination Statistics</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <div className="p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
-              <h4 className="font-medium text-yellow-800">Health Check Compliance Low</h4>
-              <p className="text-sm text-yellow-700 mt-1">
-                Only 57% of animals have had recent health checks. Consider scheduling routine examinations.
-              </p>
-            </div>
-            <div className="p-4 bg-blue-50 border-l-4 border-blue-400 rounded-lg">
-              <h4 className="font-medium text-blue-800">Flu Season Approaching</h4>
-              <p className="text-sm text-blue-700 mt-1">
-                Consider boosting flu vaccination coverage before peak season in Fall.
-              </p>
-            </div>
-            <div className="p-4 bg-green-50 border-l-4 border-green-400 rounded-lg">
-              <h4 className="font-medium text-green-800">Excellent Deworming Compliance</h4>
-              <p className="text-sm text-green-700 mt-1">
-                100% compliance on deworming schedule. Keep up the great work!
-              </p>
-            </div>
+            {monthlyStats.map((stat, index) => (
+              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span className="font-medium text-gray-700">{stat.month}</span>
+                <div className="flex items-center space-x-4">
+                  <div className="text-right">
+                    <span className="text-sm text-gray-600">Vaccinations:</span>
+                    <span className="ml-2 font-medium">{stat.vaccinations}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-sm text-gray-600">Cost:</span>
+                    <span className="ml-2 font-medium">${stat.costs}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>

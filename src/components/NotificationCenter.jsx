@@ -71,7 +71,7 @@ export const NotificationCenter = () => {
     }
   ];
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority) => {
     switch (priority) {
       case 'high': return 'bg-red-100 text-red-800';
       case 'medium': return 'bg-yellow-100 text-yellow-800';
@@ -80,7 +80,7 @@ export const NotificationCenter = () => {
     }
   };
 
-  const getTypeIcon = (type: string) => {
+  const getTypeIcon = (type) => {
     switch (type) {
       case 'vaccination-due': return '💉';
       case 'health-alert': return '⚠️';
