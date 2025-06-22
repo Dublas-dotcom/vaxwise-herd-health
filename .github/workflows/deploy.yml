@@ -1,25 +1,35 @@
-name: Deploy Vite App
+name: 🚀 Deploy Vite App to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+
+permissions:
+  contents: write  # required for deployment
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
+    steps:
+      - name: ⏬ Checkout code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
 
-      - run: npm ci
-      - run: npm run build
+      - name: 📦 Install dependencies
+        run: npm ci
 
-      - name: Deploy to GitHub Pages
+      - name: 🛠 Build Vite app
+        run: npm run build
+
+      - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: dist
+          clean: true
