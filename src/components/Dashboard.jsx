@@ -2,6 +2,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 export const Dashboard = () => {
   const upcomingVaccinations = [
@@ -16,6 +18,39 @@ export const Dashboard = () => {
     { label: 'Health Alerts', value: '2', change: '-3', icon: '⚠️' },
     { label: 'Compliance Rate', value: '94%', change: '+2%', icon: '✅' },
   ];
+
+  // Chart data
+  const vaccinationTrend = [
+    { month: 'Jan', vaccinations: 23, cost: 450 },
+    { month: 'Feb', vaccinations: 31, cost: 620 },
+    { month: 'Mar', vaccinations: 28, cost: 560 },
+    { month: 'Apr', vaccinations: 35, cost: 700 },
+    { month: 'May', vaccinations: 29, cost: 580 },
+    { month: 'Jun', vaccinations: 23, cost: 460 },
+  ];
+
+  const complianceData = [
+    { name: 'Completed', value: 145, fill: '#10b981' },
+    { name: 'Overdue', value: 8, fill: '#ef4444' },
+    { name: 'Upcoming', value: 23, fill: '#f59e0b' },
+  ];
+
+  const animalHealthData = [
+    { category: 'Healthy', count: 132 },
+    { category: 'Under Treatment', count: 18 },
+    { category: 'Monitoring', count: 6 },
+  ];
+
+  const chartConfig = {
+    vaccinations: {
+      label: "Vaccinations",
+      color: "#10b981",
+    },
+    cost: {
+      label: "Cost ($)",
+      color: "#3b82f6",
+    },
+  };
 
   return (
     <div className="space-y-6">
@@ -41,6 +76,89 @@ export const Dashboard = () => {
           </Card>
         ))}
       </div>
+
+      {/* Charts Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Vaccination Trend Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Vaccination Trends</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-[300px]">
+              <LineChart data={vaccinationTrend}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Line 
+                  type="monotone" 
+                  dataKey="vaccinations" 
+                  stroke="#10b981" 
+                  strokeWidth={2}
+                  dot={{ fill: '#10b981' }}
+                />
+              </LineChart>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        {/* Compliance Overview Pie Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Vaccination Compliance</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="h-[300px]">
+              <PieChart>
+                <Pie
+                  data={complianceData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={100}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {complianceData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                  ))}
+                </Pie>
+                <ChartTooltip content={<ChartTooltipContent />} />
+              </PieChart>
+            </ChartContainer>
+            <div className="flex justify-center mt-4 space-x-4">
+              {complianceData.map((entry, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <div 
+                    className="w-3 h-3 rounded-full" 
+                    style={{ backgroundColor: entry.fill }}
+                  ></div>
+                  <span className="text-sm text-gray-600">{entry.name}: {entry.value}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Animal Health Status Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Animal Health Status</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig} className="h-[250px]">
+            <BarChart data={animalHealthData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="category" />
+              <YAxis />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar dataKey="count" fill="#10b981" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
 
       {/* Quick Actions */}
       <Card>
